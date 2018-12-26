@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="542.0" prefWidth="929.0" style="-fx-background-color: #37474f;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+   <children>
+      <ImageView fitHeight="550.0" fitWidth="946.0" layoutY="-4.0" pickOnBounds="true">
+         <image>
+            <Image url="@../../image/kingdomino4.png" />
+         </image>
+      </ImageView>
+      <AnchorPane layoutX="32.0" layoutY="27.0" prefHeight="489.0" prefWidth="883.0" style="-fx-background-color: ghostwhite;">
+         <children>
+            <AnchorPane prefHeight="55.0" prefWidth="889.0" style="-fx-background-color: #263238;">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="146.0" layoutY="-2.0" prefHeight="73.0" prefWidth="598.0" text="Tirage au sort de la rotation du jeu" textFill="#fffafa">
+                     <font>
+                        <Font name="Papyrus" size="36.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <Label layoutX="40.0" layoutY="85.0" prefHeight="55.0" prefWidth="809.0" text="Dans un ordre établi au hasard, chaque joueur va sélectionner une couleur. Le premier tour de jeu suivra cet ordre." textOverrun="CLIP">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="40.0" layoutY="161.0" prefHeight="42.0" prefWidth="126.0" text="Ordre de jeu">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Label layoutX="82.0" layoutY="220.0" prefHeight="21.0" prefWidth="168.0" text="Joueur ...">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <ChoiceBox layoutX="370.0" layoutY="219.0" prefWidth="150.0" />
+            <Button layoutX="572.0" layoutY="219.0" mnemonicParsing="false" text="Valider son choix de couleur" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
