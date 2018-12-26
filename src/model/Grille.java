@@ -18,7 +18,7 @@ public class Grille {
 	}
 	
 	public void putTuile(int x, int y, Tuile t) {
-		this.tableau[x][y] = t;
+		this.tableau[y][x] = t;
 	}
 
 	public static boolean verifTuile(int x, int y, Joueur j) {
