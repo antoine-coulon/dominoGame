@@ -57,17 +57,10 @@ public class Grille {
 		System.out.println();
 	}
 	
-	/*
-	 * Verifier si tuile a coté = meme type
-	 * Verifier si il y a de la place
-	 * Vérifier si on est dépasse pas la taille de la grille
-	 */
-	
-	
 	public boolean verificationTuileVide(int x, int y, int choix) {
 		// droite de la premiere tuile
 		if(choix == 1) {
-			if(tableau[x][y]==null && tableau[x+1][y]==null) {
+			if(tableau[y][x]==null && tableau[y][x+1]==null) {
 				return true;
 			}
 			else {
@@ -76,7 +69,7 @@ public class Grille {
 		}
 		// haut de la premiere tuile
 		else if (choix == 2) {
-			if(tableau[x][y]== null && choix==2 && tableau[x][y+1]==null) {
+			if(tableau[y][x]== null && choix==2 && tableau[y+1][x]==null) {
 				return true;
 			}
 			else {
@@ -85,7 +78,7 @@ public class Grille {
 		}
 		// gauche de la premiere tuile
 		else if (choix == 3) {
-			if(tableau[x][y]==null && choix==3 && tableau[x-1][y] == null) {
+			if(tableau[y][x]==null && choix==3 && tableau[y][x-1] == null) {
 				return true;
 			}
 			else {
@@ -94,7 +87,7 @@ public class Grille {
 		}
 		// bas de la premiere tuile
 		else if (choix == 4) {
-			if(tableau[x][y]==null && choix==4 && tableau[x][y-1]==null) {
+			if(tableau[y][x]==null && choix==4 && tableau[y-1][x]==null) {
 				return true;
 			}
 			else {
@@ -106,17 +99,42 @@ public class Grille {
 		}
 	}
 	
-	/*
-	public boolean verificationTaille() {
+	public boolean verificationTaille(int x, int y, int choix) { // Fonction qui retourne faux si en posant un domino on dépasse la grille de jeu 5x5	
+		int x2=0,y2=0;											// écriture des coordonnées de la deuxième tuile en fonction du choix
 		
+		if (choix==1){
+			x2=x+1;
+			y2=y;
+		}
+		else if (choix==2){
+			y2=y-1;
+			x2=x;
+		}
+		else if (choix==3){
+			x2=x-1;
+			y2=y;
+		}
+		else if (choix==4){
+			x2=x;
+			y2=y+1;
+		}
+
+		else {
+			System.out.println("Erreur !");
+		}
+
+		tableau[y][x] = new Tuile(0,"temporaire");			// on place temporairement une tuile pour effectuer nos vérifications
+		tableau[y2][x2]= new Tuile(0,"temporaire");
+
 		int colonnemin= 10;
 		int colonnemax= -1;
 		int lignemin= 10;
 		int lignemax= -1;
 		
-		for(int ligne=0;ligne<tailleGrille;ligne++) {
+
+		for(int ligne=0;ligne<tailleGrille;ligne++) {					// on parcourt la grille en récupérant les indices des tuiles aux extrémités
 			for(int colonne=0;colonne<tailleGrille;colonne++) {
-				if(tableau[colonne][ligne] != null) {
+				if(tableau[ligne][colonne] != null) {
 					if(colonne>colonnemax) {
 						colonnemax=colonne;
 					}
@@ -126,14 +144,16 @@ public class Grille {
 				}
 			}
 		}
-		//Gérer le cas où pas de domino placé, c a d ou min = 10 et max = -1
-		if (colonnemax-colonnemin >=5) {
+
+		if (colonnemax-colonnemin >=5) { // si on a un dépassement, la fonction retourne faux
+			tableau[y][x]=null;		// on vide les positions temporaires utilisées pour faire notre vérification
+			tableau[y2][x2]=null;
 			return false;
 		}
 		
 		for(int colonne =0;colonne<tailleGrille;colonne++) {
 			for (int ligne=0;ligne<tailleGrille;ligne++) {
-				if (tableau[colonne][ligne] != null) {
+				if (tableau[ligne][colonne] != null) {
 					if (ligne>lignemax) {
 						lignemax=ligne;
 					}
@@ -144,60 +164,98 @@ public class Grille {
 			}
 		}
 		
+		tableau[y][x]=null;		// on vide les positions temporaires utilisées pour faire notre vérification
+		tableau[y2][x2]=null;
+		
 		if (lignemax-lignemin >=5) {
 			return false;
 		}
+
 		return true;
+	}
+	
+	/*
+	 * Fonction permettant de vérifier si au moins une tuile adjacente au domino posé est de même type
+	 */
+	public boolean verificationTuilesAdjacentes (int x, int y, int choix, Domino domino) {
+		int x2=0,y2=0;
+		
+		if (choix==1) {
+			x2=x+1;
+			y2=y;
+			
+			boolean un = tableau[y+1][x].getTypeTuile() == domino.getTypeTuile1();
+			boolean deux = tableau[y][x-1].getTypeTuile() == domino.getTypeTuile1();
+			boolean trois = tableau[y-1][x].getTypeTuile() == domino.getTypeTuile1();
+
+			boolean quatre = tableau[y2+1][x2].getTypeTuile() == domino.getTypeTuile2();
+			boolean cinq = tableau[y2][x2+1].getTypeTuile() == domino.getTypeTuile2();
+			boolean six = tableau[y2-1][x2].getTypeTuile() == domino.getTypeTuile2();
+			
+			if (un==true || deux==true || trois==true || quatre==true || cinq ==true  || six == true) {
+				return true;
+			}
+			
+			}
+		
+		else if (choix==2) {
+			y2=y-1;
+			x2=x;
+			
+			boolean un = tableau[y][x-1].getTypeTuile() == domino.getTypeTuile1();
+			boolean deux = tableau[y][x+1].getTypeTuile() == domino.getTypeTuile1();
+			boolean trois = tableau[y-1][x].getTypeTuile() == domino.getTypeTuile1();
+
+			boolean quatre = tableau[y2][x2-1].getTypeTuile() == domino.getTypeTuile2();
+			boolean cinq = tableau[y2][x2+1].getTypeTuile() == domino.getTypeTuile2();
+			boolean six = tableau[y2+1][x2].getTypeTuile() == domino.getTypeTuile2();
+			
+			if (un==true || deux==true || trois==true || quatre==true || cinq ==true  || six == true) {
+				return true;
+			}
+		}
+		
+		else if (choix==3) {
+			x2=x-1;
+			y2=y;
+			
+			boolean un = tableau[y+1][x].getTypeTuile() == domino.getTypeTuile1();
+			boolean deux = tableau[y][x+1].getTypeTuile() == domino.getTypeTuile1();
+			boolean trois = tableau[y-1][x].getTypeTuile() == domino.getTypeTuile1();
+
+			boolean quatre = tableau[y2+1][x2].getTypeTuile() == domino.getTypeTuile2();
+			boolean cinq = tableau[y2][x2-1].getTypeTuile() == domino.getTypeTuile2();
+			boolean six = tableau[y2-1][x2].getTypeTuile() == domino.getTypeTuile2();
+			
+			if (un==true || deux==true || trois==true || quatre==true || cinq ==true  || six == true) {
+				return true;
+			}
+			
+		}
+		
+		else if(choix==4){
+			x2=x;
+			y2=y+1;
+			
+			boolean un = tableau[y][x-1].getTypeTuile() == domino.getTypeTuile1();
+			boolean deux = tableau[y][x+1].getTypeTuile() == domino.getTypeTuile1();
+			boolean trois = tableau[y+1][x].getTypeTuile() == domino.getTypeTuile1();
+
+			boolean quatre = tableau[y2][x2-1].getTypeTuile() == domino.getTypeTuile2();
+			boolean cinq = tableau[y2][x2+1].getTypeTuile() == domino.getTypeTuile2();
+			boolean six = tableau[y2-1][x2].getTypeTuile() == domino.getTypeTuile2();
+			
+			if (un==true || deux==true || trois==true || quatre==true || cinq ==true  || six == true) {
+				return true;
+			}
+		}
+		else {
+			System.out.println("Erreur dans la lecture du choix ! ");
+		
+		}
+		
+		return false;
+		
 	}
 
-	*/
-	
-	public boolean verificationTaille() { // Fonction permettant de vérifier si on ne dépasse pas 5*5 de taille de grille de jeu
-		int top=0;
-		int bottom=0;
-		int left=0;
-		int right=0;
-		
-		for(int colonne=0;colonne<tailleGrille;colonne++) {
-			for(int ligne=0;ligne<tailleGrille;ligne++) {
-				if(tableau[colonne][ligne]!=null) {
-					top=ligne;
-					break;
-				}
-			}
-			for(int ligne=tailleGrille-1;ligne>=0;ligne--) {
-				if(tableau[colonne][ligne]!=null) {
-					bottom=ligne;
-					break;
-				}
-			}
-			if(bottom-top >=5) {
-				return false;
-			}
-		}
-		
-		
-		for(int ligne=0;ligne<tailleGrille;ligne++) {
-			for(int colonne=0;colonne<tailleGrille;colonne++) {
-				if(tableau[colonne][ligne]!=null) {
-					left=ligne;
-					break;
-				}
-			}
-			
-			for(int colonne=tailleGrille-1;colonne>=0;colonne--) {
-				if(tableau[colonne][ligne]!=null) {
-					right=ligne;
-					break;
-				}
-			}
-			
-			if(right-left >=5) {
-				return false;
-			}
-		}
-		
-		return true;
-	}
-	
 }
