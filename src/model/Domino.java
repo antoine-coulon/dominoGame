@@ -11,9 +11,9 @@ import java.util.Random;
 public class Domino implements Comparable<Domino> {
 	
 	static List<Domino> tousLesDominos = new ArrayList<>();
-	static List<Domino> dominosNbJoueurs = new ArrayList<>();
-	Tuile tuile1;
-	Tuile tuile2;
+	public static List<Domino> dominosNbJoueurs = new ArrayList<>();
+	public Tuile tuile1;
+	public Tuile tuile2;
 	int numeroDomino;
 	static final int NB_TUILES_IN_DOMINO = 2;
 	

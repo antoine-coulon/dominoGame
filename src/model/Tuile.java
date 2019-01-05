@@ -15,7 +15,7 @@ public class Tuile {
 	}
 	
 	public int getNbCouronnes(){
-		return this.getNbCouronnes();
+		return this.nbCouronnes;
 	}
 	
 	public String toString() {

@@ -9,7 +9,7 @@ public class Joueur {
 	private String nomJoueur;
 	private String couleur;
 	private int numeroJoueur;
-	private List<Domino> listOfDominosPerPlayer = new ArrayList<>();
+	public List<Domino> listOfDominosPerPlayer = new ArrayList<>();
 	private Grille grille; 
 	static Scanner sc = new Scanner(System.in);
 	
