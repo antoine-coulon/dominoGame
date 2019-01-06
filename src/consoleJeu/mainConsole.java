@@ -14,6 +14,7 @@ import model.Joueur;
 
 public class mainConsole {
 
+
 	
 	public static Scanner sc = new Scanner(System.in);
 	static String sautDeLigne = System.getProperty("line.separator"); 
@@ -148,7 +149,7 @@ public class mainConsole {
 									Jeu.joueurs.get(i).piocheDomino(d);
 									dominosToPlay.remove(d);
 									
-									Jeu.joueurs.get(i).canPlayerPutDomino(d, Jeu.joueurs.get(i));
+									Jeu.joueurs.get(i).canPlayerPutDomino(d);
 									System.out.println("Liste des dominos actualisée : ");
 									System.out.println(sautDeLigne);
 									System.out.println("-------------------------------");
@@ -257,5 +258,5 @@ public class mainConsole {
 	public static void main(String[] args) throws Exception {
 	    initJeu();
 	}
-
+ 
 }

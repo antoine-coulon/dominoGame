@@ -56,7 +56,7 @@ public class Joueur {
 		}
 	}
 	
-	public boolean canPlayerPutDomino(Domino d, Joueur j) {
+	public boolean canPlayerPutDomino(Domino d) {
 		System.out.println("Vous devez désormais placer le domino sélectionné.");
 		System.out.println("Rappel de votre grille courante : ");
 		//grille.displayGrille(this.getGrilleJoueur());
@@ -160,7 +160,7 @@ public class Joueur {
 			
 			
 			// On vérifie si la première tuile peut être placée sinon on ne continue pas
-			if(Grille.verifTuile(x, y, this) == true) {
+			if(this.getGrille().verifTuile(x, y, this) == true) {
 				
 				int choix = 0;
 				
@@ -219,6 +219,64 @@ public class Joueur {
 		return false;
 	}
 
+	
+	public boolean placerDominoXY(Domino d, int x, int y, int choix) {
+		
+		try {
+		
+		
+			
+			if(this.getGrille().verifTuile(x, y, this) == true) {
+				
+		
+		
+			
+				// vérification pour tuile1 et tuile2
+				
+				if(grille.verificationTuileVide(x,y,choix) == true) {
+					addTuile(x, y, d.tuile1);
+					if(choix == 1) {
+						addTuile(x+1, y, d.tuile2);
+						return true;
+						
+					}
+					// haut de la premiere tuile
+					else if (choix == 2) {
+						addTuile(x, y+1, d.tuile2);
+						return true;
+					}
+					// gauche de la premiere tuile
+					else if (choix == 3) {
+						addTuile(x-1, y, d.tuile2);
+						return true;
+					}
+					// bas de la premiere tuile
+					else if (choix == 4) {
+						addTuile(x, y-1, d.tuile2);
+						return true;
+					}
+					
+					return true;
+				
+				}
+				else {
+					System.out.println("Not ok");
+					return false;
+				} 
+			}
+			else {
+				System.out.println("Recommencez...");
+				return false;
+			}
+			
+		
+		}
+		
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 	
 	
 }

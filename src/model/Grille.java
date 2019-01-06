@@ -21,7 +21,7 @@ public class Grille {
 		this.tableau[y][x] = t;
 	}
 
-	public static boolean verifTuile(int x, int y, Joueur j) {
+	public boolean verifTuile(int x, int y, Joueur j) {
 		System.out.print("Vérification de la tuile... : ");
 		//j.getGrilleJoueur();
 		if(j.getGrille().tableau[x][y] == null) {
