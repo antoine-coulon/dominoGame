@@ -287,7 +287,6 @@ public class Jeu {
 			System.out.println("Joueur n°"+joueurs.get(i).getNumeroJoueur() + " - pseudo : " + joueurs.get(i).getNomJoueur() + " - couleur : " + joueurs.get(i).getCouleurJoueur());
 		}
 	}
-
 	public static void displayArrayListGeneric(List<Joueur> joueurs){
 		for(int i =0 ; i < joueurs.size(); i++){
 			System.out.println(joueurs.get(i).getNomJoueur());
