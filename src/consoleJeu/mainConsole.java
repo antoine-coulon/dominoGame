@@ -18,33 +18,34 @@ public class mainConsole {
 	
 	public static Scanner sc = new Scanner(System.in);
 	static String sautDeLigne = System.getProperty("line.separator"); 
+	public static boolean partieEnCours;
 	
 	public static void initJeu(){
 		
 		
 		
 		System.out.println("Bienvenue sur le jeu Domi'Nations ! " + sautDeLigne);
-		System.out.println("Pour jouer, 2 à 4 joueurs sont requis." + sautDeLigne);
+		System.out.println("Pour jouer, 2 à 4 joueurs sont requis.");
 		System.out.println("Combien de joueurs veulent jouer ?" + sautDeLigne);
 	
 	
-		while(true){
+		while(partieEnCours==true){
 			try{
 					int nbJoueurs = sc.nextInt();
 					switch(nbJoueurs){
 						case 2 : 
 							
-							System.out.println("Lancement du jeu à 2 joueurs" +sautDeLigne);
+							System.out.println("Lancement du jeu à 2 joueurs...");
 							sc.nextLine();
 							setJoueurs(nbJoueurs);
 							break;
 						case 3 :
-							System.out.println("Lancement du jeu à 3 joueurs" +sautDeLigne);
+							System.out.println("Lancement du jeu à 3 joueurs...");
 							sc.nextLine();
 							setJoueurs(nbJoueurs);
 							break;
 						case 4 :
-							System.out.println("Lancement du jeu à 4 joueurs" + sautDeLigne);	
+							System.out.println("Lancement du jeu à 4 joueurs..." );	
 							sc.nextLine();
 							setJoueurs(nbJoueurs);
 							break;
@@ -57,11 +58,10 @@ public class mainConsole {
 			
 			} catch (Exception e){
 				e.printStackTrace();
-				
-				
 			} 
 			break;
 		}
+		
 		
 			
 		
@@ -72,7 +72,7 @@ public class mainConsole {
 		while(true){
 		for(int i = 1; i <= nbJoueurs; i++){
 			
-			System.out.println("Saisissez le nom du joueur " + i + sautDeLigne);
+			System.out.println("Saisissez le nom du joueur " + i);
 			
 			try{
 				

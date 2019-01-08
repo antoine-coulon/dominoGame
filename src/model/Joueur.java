@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -151,7 +152,18 @@ public class Joueur {
 		grilleTemporaire.tableau[y][x]= null;
 
 		// Parcourir la liste territoire pour get le nb de couronnes total et le multiplier par size
-			return territoire.size();
+		int nombreCouronnesTotal=0;
+		int nombreCouronnes=0;
+		for(int i=0;i<territoire.size();i++) {
+			Tuile element = territoire.get(i);
+			nombreCouronnes=element.getNbCouronnes();
+			nombreCouronnesTotal=nombreCouronnesTotal + nombreCouronnes;
+			
+		}
+		
+		int scoreTerritoire=nombreCouronnesTotal*territoire.size();
+		System.out.println(nombreCouronnesTotal);
+			return scoreTerritoire;
 	}
 	
 	public boolean checkPositionInGrid(Domino d) {
@@ -219,16 +231,17 @@ public class Joueur {
 	
 	
 	public boolean placerDomino(Domino d) {
-		
 		try {
 		
 			System.out.println("Sur quelle colonne voulez-vous placer la tuile 1 de votre domino ? ");
 			int x = sc.nextInt();
 			sc.nextLine();
+			x--;
 			
 			System.out.println("Sur quelle ligne voulez-vous placer la tuile 1 de votre domino ? ");
 			int y = sc.nextInt();
 			sc.nextLine();
+			y--;
 			
 			
 			// On vérifie si la première tuile peut être placée sinon on ne continue pas
@@ -236,14 +249,16 @@ public class Joueur {
 				
 				int choix = 0;
 				
+				do {
+					System.out.println("Comment voulez-vous placer la tuile 2 ?");
+					System.out.println("A droite de la tuile 1 ? Tapez 1");
+					System.out.println("En haut de la tuile 1 ? Tapez 2");
+					System.out.println("A gauche de la tuile 1 ? Tapez 3");
+					System.out.println("En bas de la tuile 1 ? Tapez 4");
+					choix = sc.nextInt();
+					sc.nextLine();
+				} while (choix != 1 && choix !=2 && choix !=3 && choix !=4);
 				
-				System.out.println("Comment voulez-vous placer la tuile 2 ?");
-				System.out.println("A droite de la tuile 1 ? Tapez 1");
-				System.out.println("En haut de la tuile 1 ? Tapez 2");
-				System.out.println("A gauche de la tuile 1 ? Tapez 3");
-				System.out.println("En bas de la tuile 1 ? Tapez 4");
-				choix = sc.nextInt();
-				sc.nextLine();
 			
 				// vérification pour tuile1 et tuile2
 				if(this.getGrille().verificationTuileVide(x,y,choix) == true && this.getGrille().verificationTaille(x, y, choix) == true && this.getGrille().verificationTuilesAdjacentes(x, y, choix, d)) {
@@ -334,15 +349,10 @@ public class Joueur {
 				System.out.println("Recommencez...");
 				return false;
 			}
-			
-		
 		}
-		
 		catch(Exception e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
-	
-	
 }
