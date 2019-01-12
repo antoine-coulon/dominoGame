@@ -158,7 +158,7 @@ public class Jeu {
 	        
 	        Joueur j = (Joueur) pair.getKey();
 	        System.out.println("On parcourt les joueurs qui ont joué : ");
-	        System.out.println(j.getNumeroJoueur() + " " +  j.getNomJoueur() + " " + j.getCouleurJoueur());
+	        System.out.println(j.getNomJoueur() + " " + j.getCouleurJoueur());
 	        changingOrder.add(j);
 	        joueurs.clear();
 	        joueurs.add(j);

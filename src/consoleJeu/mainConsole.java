@@ -155,10 +155,7 @@ public class mainConsole {
 					 */
 					
 					
-					boolean changingTour = false;
-					if(changingTour) {
-						Jeu.changeOrder();
-					}
+					
 					
 					while(dominosToPlay.size() != 0) {
 						for(int i = 0; i < Jeu.joueurs.size(); i++) {
@@ -204,13 +201,14 @@ public class mainConsole {
 				
 					}
 					System.out.println(sautDeLigne + "Passage au tour suivant, tenez vous prêt!" + sautDeLigne);
-					changingTour = true;
+					Jeu.changeOrder();
 					
 				
 					//displayArrayList(dominosToPlay);
 				}
 				
 				System.out.println("Partie finie les boyz!");
+				
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

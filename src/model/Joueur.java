@@ -238,6 +238,26 @@ public class Joueur {
 			boolean isOk = false;
 			
 			while(!isOk) {
+				
+				System.out.println("Si vous ne pouvez pas jouer ou que vous vouliez simplement faire de l'anti-jeu, tappez 1 " + sautDeLigne);
+				System.out.println("Sinon, tapez 2");
+				
+				try{
+					int playingChoice = sc.nextInt();
+					sc.nextLine();
+					if(playingChoice == 1) {
+						isOk = false;
+						return true;
+					}
+					else {
+						isOk = true;
+					}
+				} catch(Exception e) {
+					
+				}
+				
+				
+				
 				System.out.println(sautDeLigne + "Sur quelle colonne voulez-vous placer la tuile 1 de votre domino ? ");
 				int x = sc.nextInt();
 				sc.nextLine();
@@ -300,7 +320,7 @@ public class Joueur {
 						return true;
 					
 					} else {
-						System.out.println(sautDeLigne + "Placement du domino non autorisée. Veuillez recommencer");
+						System.err.println(sautDeLigne + "Placement du domino non autorisé. Veuillez recommencer");
 						isOk = false;
 					}
 				}
