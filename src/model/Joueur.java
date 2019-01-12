@@ -310,11 +310,7 @@ public class Joueur {
 			if(this.getGrille().verifTuile(x, y, this) == true) {
 				// vérification pour tuile1 et tuile2
 				
-<<<<<<< HEAD
-				if(this.getGrille().verificationTuileVide(x,y,choix) == true) {
-=======
 				if(this.getGrille().verificationTuileVide(x,y,choix) == true && this.getGrille().verificationTaille(x, y, choix) == true && this.getGrille().verificationTuilesAdjacentes(x, y, choix, d) ) {
->>>>>>> origin/master
 					addTuile(x, y, d.tuile1);
 					if(choix == 1) {
 						addTuile(x+1, y, d.tuile2);

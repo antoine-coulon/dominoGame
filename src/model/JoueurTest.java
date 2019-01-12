@@ -41,13 +41,13 @@ class JoueurTest {
 			 *  
 			 */
 			
-<<<<<<< HEAD
+
 			// vérification que pour la grille d'Antoine, le domino xy(1;1) avec le choix == 2
 			assertTrue(g.verificationTaille(1, 1, 2));
 			assertTrue(g.verificationTaille(4, 5, 3));
 			assertTrue(g.verificationTaille(2, 3, 1));
 			assertTrue(g.verificationTaille(1, 2, 2));
-=======
+
 			// vérification que pour la grille d'Antoine, le domino xy(1;0) avec le choix == 2
 			g.tableau[0][0] = new Tuile (0,"Mer");
 			g.tableau[0][1] = new Tuile (1, "Mer");
@@ -70,7 +70,7 @@ class JoueurTest {
 			//assertTrue(g.verificationTaille(8, 8, 2));
 			//assertTrue(g.verificationTaille(2, 3, 1));
 			//assertTrue(g.verificationTaille(1, 2, 2));
->>>>>>> origin/master
+
 			
 			
 			// vérification que chaque grille est bien propre à chaque joueur
@@ -82,16 +82,14 @@ class JoueurTest {
 			
 			// vérification que placer le domino aux coordonnées 2,2 avec le choix 1 retourne bien true
 			// or, retourne faux donc surement une erreur dans la fonction -> à voir
-<<<<<<< HEAD
+
 			assertTrue(j.placerDominoXY(d, 2, 2, 1));
 			assertFalse(j.placerDominoXY(d2, 2, 2, 1));
 			assertFalse(j.placerDominoXY(d3, 4,4,1));
 			assertTrue(j2.placerDominoXY(d, 2, 2, 1));
 			
 			
-=======
-			//assertTrue(j.placerDominoXY(d, 2, 2, 1));
->>>>>>> origin/master
+
 	}
 
 }
