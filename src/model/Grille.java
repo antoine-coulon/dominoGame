@@ -9,6 +9,7 @@ public class Grille {
 											// tableau 2d de tuiles
 	Joueur j;
 	String nomGrille;
+	static String sautDeLigne = System.getProperty("line.separator"); 
 
 	public static final int TAILLE_GRILLE=9;
 	public Grille(String nomGrille) {
@@ -40,7 +41,7 @@ public class Grille {
 
 	public static void displayGrille(Grille g) {
 		
-		System.out.println("Displaying the grid : ");
+		System.out.println(sautDeLigne + "Affichage de la grille en cours... " + sautDeLigne);
 		
 		for(int i = 0; i < g.tableau.length; i++) {
 			for(int j = 0; j < g.tableau[i].length; j++) {
@@ -65,42 +66,46 @@ public class Grille {
 	
 	public boolean verificationTuileVide(int x, int y, int choix) {
 		// droite de la premiere tuile
-		if(choix == 1) {
-			if(tableau[y][x]==null && tableau[y][x+1]==null) {
-				return true;
+		if(x > 0 && y > 0) {
+			if(choix == 1) {
+				if(tableau[y][x]==null && tableau[y][x+1]==null) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
+			// haut de la premiere tuile
+			else if (choix == 2) {
+				if(tableau[y][x]== null && choix==2 && tableau[y-1][x]==null) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
+			// gauche de la premiere tuile
+			else if (choix == 3) {
+				if(tableau[y][x]==null && choix==3 && tableau[y][x-1] == null) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
+			// bas de la premiere tuile
+			else if (choix == 4) {
+				if(tableau[y][x]==null && choix==4 && tableau[y+1][x]==null) {
+					return true;
+				}
+				else {
+					return false;
+				}
 			}
 			else {
 				return false;
 			}
-		}
-		// haut de la premiere tuile
-		else if (choix == 2) {
-			if(tableau[y][x]== null && choix==2 && tableau[y-1][x]==null) {
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
-		// gauche de la premiere tuile
-		else if (choix == 3) {
-			if(tableau[y][x]==null && choix==3 && tableau[y][x-1] == null) {
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
-		// bas de la premiere tuile
-		else if (choix == 4) {
-			if(tableau[y][x]==null && choix==4 && tableau[y+1][x]==null) {
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
-		else {
+		} else {
 			return false;
 		}
 	}

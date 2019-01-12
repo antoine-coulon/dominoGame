@@ -28,38 +28,44 @@ public class mainConsole {
 		System.out.println("Pour jouer, 2 à 4 joueurs sont requis.");
 		System.out.println("Combien de joueurs veulent jouer ?" + sautDeLigne);
 	
-	
-		while(partieEnCours==true){
+		boolean tryInput = false;
+		while(!tryInput){
 			try{
 					int nbJoueurs = sc.nextInt();
+					
 					switch(nbJoueurs){
 						case 2 : 
 							
 							System.out.println("Lancement du jeu à 2 joueurs...");
 							sc.nextLine();
 							setJoueurs(nbJoueurs);
+							tryInput = true;
 							break;
 						case 3 :
 							System.out.println("Lancement du jeu à 3 joueurs...");
 							sc.nextLine();
 							setJoueurs(nbJoueurs);
+							tryInput = true;
 							break;
 						case 4 :
 							System.out.println("Lancement du jeu à 4 joueurs..." );	
 							sc.nextLine();
 							setJoueurs(nbJoueurs);
+							tryInput = true;	
 							break;
-						default:
-							System.err.println("Nombre de joueurs invalide. Recommencez.");
+						default : 
+							System.out.println("Nombre de joueurs invalide");
 							
-						
-					}	
 				
+					}
 			
-			} catch (Exception e){
-				e.printStackTrace();
+			} catch (InputMismatchException e){
+				
+				System.out.println("Veuillez saisir un nombre valide (2-3-4)");
+				sc.nextLine();
+				tryInput = false;
 			} 
-			break;
+		
 		}
 		
 		
@@ -96,15 +102,17 @@ public class mainConsole {
 		System.out.println("Voici l'ordre de sélection des couleurs, tiré au hasard et sans triche" + sautDeLigne);
 		Jeu.shufflePlayers();
 		System.out.println(sautDeLigne);
-		while(true){
+		
+		boolean validColor = false;
+		while(!validColor){
 				System.out.println("Sélectionnez votre couleur parmi les couleurs disponibles : ");
 				try{
 					couleur(Jeu.joueurs);
-					break;
+					validColor = true;
 				}
-				catch (IOException e){
+				catch (Exception e){
+					validColor = false;
 					System.err.println("Erreur couleur joueur");
-					e.printStackTrace();
 				}
 		}
 		
@@ -136,38 +144,73 @@ public class mainConsole {
 				
 					displayArrayList(dominosToPlay);
 					System.out.println("Les dominos sont posés. Chaque joueur en choisit un qui lui convient");
+					
+					
+					/*
+					 * 
+					 * Faire ici la rotation du jeu en fonction des picks
+					 * changingOrder
+					 * 
+					 * 
+					 */
+					
+					
+					boolean changingTour = false;
+					if(changingTour) {
+						Jeu.changeOrder();
+					}
+					
 					while(dominosToPlay.size() != 0) {
 						for(int i = 0; i < Jeu.joueurs.size(); i++) {
 							System.out.println(sautDeLigne);
 							System.out.println(Jeu.joueurs.get(i).getNomJoueur() + " choisissez votre domino : ");
 							System.out.println(sautDeLigne);
 							
-								try {
-									int dominoToPick = sc.nextInt();
-									Domino d = dominosToPlay.get(dominoToPick);
-									sc.nextLine();
-									Jeu.joueurs.get(i).piocheDomino(d);
-									dominosToPlay.remove(d);
-									
-									Jeu.joueurs.get(i).canPlayerPutDomino(d);
-									System.out.println("Liste des dominos actualisée : ");
-									System.out.println(sautDeLigne);
-									System.out.println("-------------------------------");
-									System.out.println(sautDeLigne);
 								
-									displayArrayList(dominosToPlay);
-								}
-								catch(InputMismatchException e) {
-									e.printStackTrace();
-								}
+									boolean isValid = false;
+									while(!isValid) {
+										try {
+											int dominoToPick = sc.nextInt();
+											if(dominoToPick == 0 || dominoToPick == 1 || dominoToPick == 2 || dominoToPick == 3) {
+											Domino d = dominosToPlay.get(dominoToPick);
+											
+											Jeu.joueurs.get(i).piocheDomino(d);
+											dominosToPlay.remove(d);
+											
+											//Jeu.joueurs.get(i).canPlayerPutDomino(d);
+											Jeu.joueurs.get(i).placerDomino(d);
+											
+											System.out.println(sautDeLigne + "Liste des dominos actualisée : ");
+											System.out.println(sautDeLigne);
+											System.out.println("-------------------------------");
+											System.out.println(sautDeLigne);
+									
+											displayArrayList(dominosToPlay);
+											isValid = true;
+											} else {
+												System.out.println("Saisissez uniquement un nombre");
+												isValid = false;
+											}
+										}
+										catch(Exception e) {
+											System.out.println("Veuillez saisir un domino par son index");
+											isValid = false;
+										}
+									}
+									
 						
 						}
 					
 				
 					}
+					System.out.println(sautDeLigne + "Passage au tour suivant, tenez vous prêt!" + sautDeLigne);
+					changingTour = true;
+					
 				
 					//displayArrayList(dominosToPlay);
 				}
+				
+				System.out.println("Partie finie les boyz!");
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -221,29 +264,38 @@ public class mainConsole {
 		
 		System.out.println("Nombre de joueurs : " + joueurs.size());
 		System.out.println("Couleurs disponibles" + sautDeLigne);
+		
+		
+		
 		for(int i =0 ; i < joueurs.size(); i++){
 			
 			for(int j = 0; j < co.size(); j++){
 				System.out.println("couleur : " + co.get(j));
 			}
-	        System.out.println(joueurs.get(i).getNomJoueur() + " : choisissez votre couleur par son nom.");  
+	        System.out.println(joueurs.get(i).getNomJoueur() + " : choisissez votre couleur par son nom." + sautDeLigne);  
 	    
-	        
-			try {
-				String playerInput = sc.nextLine();
-				if(co.contains(playerInput)){
-					joueurs.get(i).setCouleur(playerInput);
-					co.remove(playerInput);
-				}
-				else{
-					System.err.println("Couleur n'existe pas dans la liste");
-				}
-				
-				System.out.println(joueurs.get(i).getNomJoueur() + " a selectionné sa couleur." + sautDeLigne);  
-			} catch (Exception e) {
-				System.err.println("Vérifiez la saisie de la couleur");
-				e.printStackTrace();
-			} 
+	        boolean nvalidColor = false;
+	        while(!nvalidColor) {
+	        	try {
+					String playerInput = sc.nextLine();
+					if(co.contains(playerInput)){
+						joueurs.get(i).setCouleur(playerInput);
+						co.remove(playerInput);
+						nvalidColor = true;
+						System.out.println(joueurs.get(i).getNomJoueur() + " a selectionné sa couleur." + sautDeLigne); 
+					}
+					else{
+						nvalidColor = false;
+						System.err.println("Couleur n'existe pas dans la liste. Recommencez");
+					}
+					
+					 
+				} catch (Exception e) {
+					System.err.println("Vérifiez la saisie de la couleur");
+					nvalidColor = false;
+				} 
+	        }
+			
 	      
 		}
 	

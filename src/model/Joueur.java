@@ -13,6 +13,7 @@ public class Joueur {
 	public List<Domino> listOfDominosPerPlayer = new ArrayList<>();
 	public List<Domino> listOfDominosPut = new ArrayList<>();
 	private Grille grille; 
+	static String sautDeLigne = System.getProperty("line.separator"); 
 
 	public List<Tuile> territoire = new ArrayList<>();
 	static Scanner sc = new Scanner(System.in);
@@ -45,14 +46,15 @@ public class Joueur {
 	}
 	
 	public void getGrilleJoueur() {
-		System.out.println("Showing the grid of : " + this.getNomJoueur());
+		System.out.println(sautDeLigne + "Grille courante appartenant à : " + this.getNomJoueur());
 		Grille.displayGrille(this.grille);
 	}
 	
 	public void piocheDomino(Domino d) {
 		this.listOfDominosPerPlayer.add(d);
+		Jeu.handleOrder(this, d);
 		Domino.dominosNbJoueurs.remove(d);
-		System.out.println("Domino picked!");
+		System.out.println(sautDeLigne + "Domino N°" + d.getNumero() + " a été sélectionné!");
 	}
 	
 	public void checkCurrentListOfDominos() {
@@ -81,7 +83,7 @@ public class Joueur {
 	}
 	
 	public void addTuile(int x, int y, Tuile t) {
-		System.out.println("Tuile coord x : "  + x + " y : " +y);
+		System.out.println(sautDeLigne + "Ajout de la tuile de coordonnées (x,y) = " + "(" + x + "," +y+")" + sautDeLigne);
 		this.grille.putTuile(x, y, t);
 	}
 	
@@ -229,71 +231,81 @@ public class Joueur {
 	public boolean placerDomino(Domino d) {
 		try {
 		
-			System.out.println("Sur quelle colonne voulez-vous placer la tuile 1 de votre domino ? ");
-			int x = sc.nextInt();
-			sc.nextLine();
-			x--;
 			
-			System.out.println("Sur quelle ligne voulez-vous placer la tuile 1 de votre domino ? ");
-			int y = sc.nextInt();
-			sc.nextLine();
-			y--;
+			this.getGrilleJoueur();
 			
 			
-			// On vérifie si la première tuile peut être placée sinon on ne continue pas
-			if(this.getGrille().verifTuile(x, y, this) == true) {
-				
-				int choix = 0;
-				
-				do {
-					System.out.println("Comment voulez-vous placer la tuile 2 ?");
-					System.out.println("A droite de la tuile 1 ? Tapez 1");
-					System.out.println("En haut de la tuile 1 ? Tapez 2");
-					System.out.println("A gauche de la tuile 1 ? Tapez 3");
-					System.out.println("En bas de la tuile 1 ? Tapez 4");
-					choix = sc.nextInt();
-					sc.nextLine();
-				} while (choix != 1 && choix !=2 && choix !=3 && choix !=4);
-				
+			boolean isOk = false;
 			
-				// vérification pour tuile1 et tuile2
-				if(this.getGrille().verificationTuileVide(x,y,choix) == true && this.getGrille().verificationTaille(x, y, choix) == true && this.getGrille().verificationTuilesAdjacentes(x, y, choix, d)) {
-					addTuile(x, y, d.tuile1);
-					if(choix == 1) {
-						addTuile(x+1, y, d.tuile2);
-						return true;
-						
-					}
-					// haut de la premiere tuile
-					else if (choix == 2) {
-						addTuile(x, y-1, d.tuile2);
-						return true;
-					}
-					// gauche de la premiere tuile
-					else if (choix == 3) {
-						addTuile(x-1, y, d.tuile2);
-						return true;
-					}
-					// bas de la premiere tuile
-					else if (choix == 4) {
-						addTuile(x, y+1, d.tuile2);
-						return true;
-					}
-					
-					return true;
+			while(!isOk) {
+				System.out.println(sautDeLigne + "Sur quelle colonne voulez-vous placer la tuile 1 de votre domino ? ");
+				int x = sc.nextInt();
+				sc.nextLine();
+				x--;
 				
+				System.out.println(sautDeLigne + "Sur quelle ligne voulez-vous placer la tuile 1 de votre domino ? ");
+				int y = sc.nextInt();
+				sc.nextLine();
+				y--;
+				
+				if(x < 0 || x > Grille.TAILLE_GRILLE && y < 0 || y > Grille.TAILLE_GRILLE) {
+					System.out.println(sautDeLigne + "Saisissez un nombre entre 0 et " + Grille.TAILLE_GRILLE);
+					isOk = false;
 				}
 				else {
-					System.out.println("Not ok");
-					return false;
+					isOk = true;
+					int choix = 0;
+					
+					do {
+						System.out.println(sautDeLigne + "Comment voulez-vous placer la tuile 2 ?");
+						System.out.println(sautDeLigne + "A droite de la tuile 1 ? Tapez 1");
+						System.out.println(sautDeLigne + "En haut de la tuile 1 ? Tapez 2");
+						System.out.println(sautDeLigne + "A gauche de la tuile 1 ? Tapez 3");
+						System.out.println(sautDeLigne + "En bas de la tuile 1 ? Tapez 4");
+						choix = sc.nextInt();
+						sc.nextLine();
+					} while (choix != 1 && choix !=2 && choix !=3 && choix !=4);
+					
+				
+					// vérification pour tuile1 et tuile2
+					
+						
+					if(this.getGrille().verificationTuileVide(x,y,choix) == true && this.getGrille().verificationTaille(x, y, choix) == true && this.getGrille().verificationTuilesAdjacentes(x, y, choix, d)) {
+						addTuile(x, y, d.tuile1);
+						if(choix == 1) {
+							addTuile(x+1, y, d.tuile2);
+							isOk = true;
+							return true;
+							
+						}
+						// haut de la premiere tuile
+						else if (choix == 2) {
+							addTuile(x, y-1, d.tuile2);
+							isOk = true;
+							return true;
+						}
+						// gauche de la premiere tuile
+						else if (choix == 3) {
+							addTuile(x-1, y, d.tuile2);
+							isOk = true;
+							return true;
+						}
+						// bas de la premiere tuile
+						else if (choix == 4) {
+							addTuile(x, y+1, d.tuile2);
+							isOk = true;
+							return true;
+						}
+						isOk = true;
+						return true;
+					
+					} else {
+						System.out.println(sautDeLigne + "Placement du domino non autorisée. Veuillez recommencer");
+						isOk = false;
+					}
 				}
-			}
-			else {
-				System.out.println("Recommencez...");
-				return false;
-			}
-			
-		
+				}
+					
 		}
 		
 		catch(Exception e) {
@@ -302,6 +314,8 @@ public class Joueur {
 		return false;
 	}
 
+	
+	/* Fonction correspondant à "placerDomino" ci-dessus mais adaptée pour la classe JoueurTest */ 
 	
 	public boolean placerDominoXY(Domino d, int x, int y, int choix) {
 		x=x-1;

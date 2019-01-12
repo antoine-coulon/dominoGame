@@ -160,6 +160,8 @@ public class Jeu {
 	        System.out.println("On parcourt les joueurs qui ont joué : ");
 	        System.out.println(j.getNumeroJoueur() + " " +  j.getNomJoueur() + " " + j.getCouleurJoueur());
 	        changingOrder.add(j);
+	        joueurs.clear();
+	        joueurs.add(j);
 	        //System.out.println(pair.getKey() + " = " + pair.getValue());
 	        it.remove(); // avoids a ConcurrentModificationException
 	    }
@@ -219,6 +221,11 @@ public class Jeu {
 		else{
 			return 0;
 		}
+	}
+	
+	public List<Joueur> classementGame(){
+		return null;
+		
 	}
 	
 
