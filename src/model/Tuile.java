@@ -14,6 +14,10 @@ public class Tuile {
 		return this.typeTuile;
 	}
 	
+	public void setTypeTuile(String type) {
+		this.typeTuile = type;
+	}
+	
 	public int getNbCouronnes(){
 		return this.nbCouronnes;
 	}
