@@ -10,6 +10,7 @@ public class Joueur {
 	private String couleur;
 	private int numeroJoueur;
 	public List<Domino> listOfDominosPerPlayer = new ArrayList<>();
+	public List<Domino> listOfDominosPut = new ArrayList<>();
 	private Grille grille; 
 	static Scanner sc = new Scanner(System.in);
 	
@@ -233,7 +234,7 @@ public class Joueur {
 			
 				// vérification pour tuile1 et tuile2
 				
-				if(grille.verificationTuileVide(x,y,choix) == true) {
+				if(this.getGrille().verificationTuileVide(x,y,choix) == true) {
 					addTuile(x, y, d.tuile1);
 					if(choix == 1) {
 						addTuile(x+1, y, d.tuile2);

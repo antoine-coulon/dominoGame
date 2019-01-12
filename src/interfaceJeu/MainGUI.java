@@ -41,9 +41,9 @@ public class MainGUI extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("IndexGame.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("./public/IndexGame.fxml"));
 			Scene scene = new Scene(root,1050,700);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			scene.getStylesheets().add(getClass().getResource("./public/application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {

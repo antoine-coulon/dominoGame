@@ -7,10 +7,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.InputMismatchException;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Jeu {
 	
@@ -21,7 +24,10 @@ public class Jeu {
 	public static List<Grille> grilles = new ArrayList<>();
 	public static ArrayList<String> co = new ArrayList<>();
 	public static List<Domino> dominosFromGui = new ArrayList<>();
-	public static Map<Joueur, Domino> orderSet = new HashMap<>();
+	public static Map<Integer, Domino> doms = new HashMap<>();
+	public static Map<Joueur, Integer> orderSet = new HashMap<>();
+	
+	public static List<Joueur> allPlayersWholeGame = new ArrayList<>();
 	
 
 	static String sautDeLigne = System.getProperty("line.separator"); 
@@ -29,7 +35,16 @@ public class Jeu {
 	
 	
 	
+	
+	public static Domino getDominoGUI(int index) {
+		Domino d = doms.get(index);
+		doms.remove(index);
+		dominosFromGui.remove(d);
+		System.out.println("DOMINO RETIRÉ : " + d.getNumero());
+		return d;
+	}
 	public static void dominosGUI(Domino dom) {
+		doms.put(dom.getNumero(), dom);
 		dominosFromGui.add(dom);
 	}
 	
@@ -81,7 +96,7 @@ public class Jeu {
 		//getDataGame(joueurs);
 		
 			int nombreDominos = adaptGame(nbJoueurs);
-			if(nombreDominos != 0){
+			if(nombreDominos != 0 && Domino.dominosNbJoueurs.size() != 48 && Domino.dominosNbJoueurs.size() != 36 && Domino.dominosNbJoueurs.size() != 24  ){
 			try {
 				Domino.initListsOfDominos(nombreDominos);
 					//displayArrayList(dominosToPlay);
@@ -93,17 +108,24 @@ public class Jeu {
 			}
 	}
 	
-	public static Joueur playerTour(List<Domino> list) {
+	public static Joueur playerTour() {
 		if (Domino.dominosNbJoueurs.size() > 0) {
 			System.out.println("Dominos nb joueurs " + Domino.dominosNbJoueurs.size());
-			if(list.size() > 0) {
-				System.out.println("List size " + list.size());
-				if(changingOrder.size() != joueurs.size()) {
+			//if(list.size() > 0) {
+				//System.out.println("List size " + list.size());
+				System.out.println("Changing size :" + changingOrder.size());
+				
+				if(joueurs.size() > 0) {
+					System.out.println("TOJOURS PREMIER TOUR");
 					System.out.println("First round pick " + joueurs.size());
 					Joueur j = joueurs.get(0);
+					//joueurs.remove(j);
 					return j;
 				}
 				else {
+					System.out.println("TOUR SUIVAAAAAANT");
+					changeOrder();
+					System.out.println("Change order TOUR SUIVANT : " + changingOrder.size());
 					if(changingOrder.size() > 0) {
 						System.out.println("Changing ordrer " + changingOrder.size());
 						Joueur j = changingOrder.get(0);
@@ -115,15 +137,39 @@ public class Jeu {
 				}
 			}
 			return null;
-		}
-		return null;
+		//}
+		//return null;
+	}
+	
+	public static void handleOrder(Joueur j, Domino d) {
+		orderSet.put(j, d.getNumero());
+	}
+	
+	public static void changeOrder() {
+		orderSet = orderSet.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+		
+		
+		Iterator it = orderSet.entrySet().iterator();
+	    while (it.hasNext()) {
+	        Map.Entry pair = (Map.Entry)it.next();
+	        
+	        Joueur j = (Joueur) pair.getKey();
+	        System.out.println("On parcourt les joueurs qui ont joué : ");
+	        System.out.println(j.getNumeroJoueur() + " " +  j.getNomJoueur() + " " + j.getCouleurJoueur());
+	        changingOrder.add(j);
+	        //System.out.println(pair.getKey() + " = " + pair.getValue());
+	        it.remove(); // avoids a ConcurrentModificationException
+	    }
 	}
 	
 	public static List<Domino> getDominos() {
 		
 			System.out.println("Nombre de dominos restant : " + Domino.dominosNbJoueurs.size() + sautDeLigne);
 			
-			int nombreDominos = adaptGame(joueurs.size());
+			int nombreDominos = adaptGame(allPlayersWholeGame.size());
 			ArrayList<Domino> dominosToPlay = Domino.pickRandomsDominos(nombreDominos);
 		
 			displayArrayList(dominosToPlay);
@@ -365,7 +411,7 @@ public class Jeu {
 
 
 	public static void setupOrder(Joueur currentJoueur, Domino dom2) {
-		orderSet.put(currentJoueur, dom2);
+		orderSet.put(currentJoueur, dom2.getNumero());
 		changingOrder.add(currentJoueur);
 		
 	}

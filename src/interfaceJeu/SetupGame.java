@@ -29,6 +29,7 @@ import model.Joueur;
 public class SetupGame implements Initializable {
 	
 	public AnchorPane playerAnchor;
+	public Label msgError;
 	public Button validateColor;
 	public ChoiceBox<String> choiceNbJoueurs = new ChoiceBox<>();
 	public ChoiceBox<String> typePlayer1 = new ChoiceBox<>();
@@ -59,7 +60,7 @@ public class SetupGame implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
 		fadeIn.setNode(playerAnchor);
-
+		fadeIn.setNode(msgError);
 	    fadeIn.setFromValue(0.0);
 	    fadeIn.setToValue(1.0);
 	    fadeIn.setCycleCount(1);
@@ -103,6 +104,7 @@ public class SetupGame implements Initializable {
 	}
 	
 	public void onValidate(ActionEvent event) throws IOException{
+		System.out.println("On validate");
 		try {
 		/*System.out.println("size ! " + temporary.size());
 		for(int i = 0; i < temporary.size(); i++) {
@@ -111,29 +113,36 @@ public class SetupGame implements Initializable {
 		*/
 
 		if(temporary.size() >= 1) {
+		
 			String selectedColor = colorPlayer.getSelectionModel().getSelectedItem();
-			System.out.println("Selected color : " + selectedColor);
-			System.err.println(temporary.size());
-			// get le joueur de la liste de joueurs avec le nom de la liste temporaire
-			int index = Jeu.joueurs.indexOf(temporary.get(0));
-			Joueur j = Jeu.joueurs.get(index);
-			System.out.println(j.getNomJoueur());
-			j.setCouleur(selectedColor);
-			colors.remove(selectedColor);
-			// une fois que l'on a agit sur le premier utilisateur, on le remove
-			temporary.remove(temporary.get(0));
-			System.err.println(temporary.size());
-			playerAnchor.setVisible(false);
-			putNames(event);
-			playerAnchor.setVisible(true);
+			System.out.println("selected : " + selectedColor);
+			if(selectedColor == null) {
+				msgError.setVisible(true);
+				fadeIn.playFromStart();
+			} else {
+				msgError.setVisible(false);
+				System.out.println("Selected color : " + selectedColor);
+				System.err.println(temporary.size());
+				// get le joueur de la liste de joueurs avec le nom de la liste temporaire
+				int index = Jeu.joueurs.indexOf(temporary.get(0));
+				Joueur j = Jeu.joueurs.get(index);
+				System.out.println(j.getNomJoueur());
+				j.setCouleur(selectedColor);
+				colors.remove(selectedColor);
+				colorPlayer.getSelectionModel().clearSelection();
+				// une fois que l'on a agit sur le premier utilisateur, on le remove
+				temporary.remove(temporary.get(0));
+				System.err.println(temporary.size());
+				playerAnchor.setVisible(false);
+				putNames(event);
+				playerAnchor.setVisible(true);
+			}
 			
 		//System.out.println("Nouveau 0 : " + temporary.get(0).getNomJoueur());
 		} else {
-			/*System.out.println("Go Next");
-			for(int i=0; i < Jeu.joueurs.size(); i++) {
-				System.out.println("COULEUR " + Jeu.joueurs.get(i).getNomJoueur() + " " + Jeu.joueurs.get(i).getCouleurJoueur());
-			}*/
+			
 		}
+		
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -142,7 +151,23 @@ public class SetupGame implements Initializable {
 	
 	public void goNext(ActionEvent event) throws IOException {
 	
-		Parent root = FXMLLoader.load(getClass().getResource("GameTour.fxml"));
+		/*Parent root = FXMLLoader.load(getClass().getResource("GameTour.fxml"));
+		Scene nextScene = new Scene(root);
+		
+		Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+		window.setScene(nextScene);
+		window.show();*/
+		boolean test = true;
+		FXMLLoader loader = new FXMLLoader(
+		    getClass().getResource(
+		        "./public/GameTour.fxml"
+		    )
+		);
+		Parent root = (Parent) loader.load();
+		GameTour controller = loader.getController();
+		System.out.println(controller);
+		controller.newTour(test);
+
 		Scene nextScene = new Scene(root);
 		
 		Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
@@ -153,7 +178,7 @@ public class SetupGame implements Initializable {
 	public void goBackAction(ActionEvent event) throws IOException {
 		//startGame.setVisible(true);
 		try {
-		Parent root = FXMLLoader.load(getClass().getResource("PrepareGame.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("./public/PrepareGame.fxml"));
 		Scene nextScene = new Scene(root);
 		
 		Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();

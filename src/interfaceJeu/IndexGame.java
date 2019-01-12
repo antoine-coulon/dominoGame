@@ -26,7 +26,7 @@ public class IndexGame implements Initializable{
 	public void launchGameAction(ActionEvent event) throws IOException {
 		//startGame.setVisible(true);
 		try {
-		Parent root = FXMLLoader.load(getClass().getResource("prepareGame.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("./public/prepareGame.fxml"));
 		Scene nextScene = new Scene(root);
 		
 		Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();

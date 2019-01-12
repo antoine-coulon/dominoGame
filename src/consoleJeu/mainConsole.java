@@ -51,7 +51,7 @@ public class mainConsole {
 						default:
 							System.err.println("Nombre de joueurs invalide. Recommencez.");
 							
-							break;
+						
 					}	
 				
 			

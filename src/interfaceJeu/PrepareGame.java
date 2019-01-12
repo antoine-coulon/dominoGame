@@ -123,7 +123,7 @@ public class PrepareGame implements Initializable {
 			System.out.println("2" + pseudoP1 + pseudoP2);
 			
 			if(pseudoP1.trim().isEmpty() || pseudoP2.trim().isEmpty()) {
-				paneError.setVisible(true);
+				msgError.setVisible(true);
 				fadeIn.playFromStart();
 			}
 			else {
@@ -134,7 +134,9 @@ public class PrepareGame implements Initializable {
 				Joueur player1 = new Joueur(1, pseudoP1, null, grille1);
 				Joueur player2 = new Joueur(2, pseudoP2, null, grille2);
 				Jeu.joueurs.add(player1);
+				Jeu.allPlayersWholeGame.add(player1);
 				Jeu.joueurs.add(player2);
+				Jeu.allPlayersWholeGame.add(player2);
 				Jeu.fillColor();
 				goNext(event);
 			}
@@ -164,6 +166,9 @@ public class PrepareGame implements Initializable {
 				Jeu.joueurs.add(player1);
 				Jeu.joueurs.add(player2);
 				Jeu.joueurs.add(player3);
+				Jeu.allPlayersWholeGame.add(player1);
+				Jeu.allPlayersWholeGame.add(player2);
+				Jeu.allPlayersWholeGame.add(player3);
 				Jeu.fillColor();
 				goNext(event);
 			}
@@ -197,6 +202,10 @@ public class PrepareGame implements Initializable {
 				Jeu.joueurs.add(player2);
 				Jeu.joueurs.add(player3);
 				Jeu.joueurs.add(player4);
+				Jeu.allPlayersWholeGame.add(player1);
+				Jeu.allPlayersWholeGame.add(player2);
+				Jeu.allPlayersWholeGame.add(player3);
+				Jeu.allPlayersWholeGame.add(player4);
 				Jeu.fillColor();
 				goNext(event);
 			}
@@ -228,7 +237,7 @@ public class PrepareGame implements Initializable {
 	}
 	
 	public void goNext(ActionEvent event) throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("SetupGame.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("./public/SetupGame.fxml"));
 		Scene nextScene = new Scene(root);
 		
 		Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
@@ -239,7 +248,7 @@ public class PrepareGame implements Initializable {
 	public void goBackAction(ActionEvent event) throws IOException {
 		//startGame.setVisible(true);
 		try {
-		Parent root = FXMLLoader.load(getClass().getResource("IndexGame.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("./public/IndexGame.fxml"));
 		Scene nextScene = new Scene(root);
 		
 		Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();

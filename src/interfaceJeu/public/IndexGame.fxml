@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="interfaceJeu.IndexGame">
+   <children>
+      <ImageView fitHeight="700.0" fitWidth="1050.0" pickOnBounds="true">
+         <image>
+            <Image url="@../../../image/kingdomino.jpg" />
+         </image>
+      </ImageView>
+      <Button fx:id="startGame" layoutX="407.0" layoutY="371.0" mnemonicParsing="false" onAction="#launchGameAction" prefHeight="55.0" prefWidth="273.0" style="-fx-background-color: #00c853; -fx-border-color: white; -fx-padding: 10px; -fx-border-width: 2px; -fx-background-radius: 5; -fx-border-radius: 5;" text="JOUER" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Britannic Bold" size="34.0" />
+         </font>
+         <opaqueInsets>
+            <Insets top="155.0" />
+         </opaqueInsets>
+         <effect>
+            <Blend mode="SOFT_LIGHT" />
+         </effect>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button layoutX="62.0" layoutY="14.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="129.0" text="Règles du jeu">
+         <font>
+            <Font name="Britannic Bold" size="15.0" />
+         </font>
+      </Button>
+      <Button layoutX="211.0" layoutY="14.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="170.0" text="Qui sommes-nous?" textOverrun="WORD_ELLIPSIS">
+         <font>
+            <Font name="Britannic Bold" size="15.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
