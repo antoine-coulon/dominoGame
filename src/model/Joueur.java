@@ -105,14 +105,10 @@ public class Joueur {
 	}
 	
 	public int comptagePointsTerritoire(int x, int y, String type, Grille grilleTemporaire) {
-		
-	//	territoire.add(grilleTemporaire.tableau[y][x]);
-	//	grilleTemporaire.tableau[y][x] = null;
+
 		if(grilleTemporaire.tableau[y][x].getTypeTuile()!="Chateau") {
 			territoire.add(grilleTemporaire.tableau[y][x]);
 		}
-		
-
 		
 		if (x+1<=TAILLE_GRILLE-1) {
 			if (grilleTemporaire.tableau[y][x+1] !=null && grilleTemporaire.tableau[y][x+1].getTypeTuile()==grilleTemporaire.tableau[y][x].getTypeTuile()) {
@@ -163,7 +159,6 @@ public class Joueur {
 		}
 		
 		int scoreTerritoire=nombreCouronnesTotal*territoire.size();
-		System.out.println(nombreCouronnesTotal);
 			return scoreTerritoire;
 	}
 	
