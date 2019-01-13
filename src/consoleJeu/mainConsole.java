@@ -22,7 +22,7 @@ public class mainConsole {
 	
 	public static void initJeu(){
 		
-		
+		System.out.println(sautDeLigne+ " ----------- DOMI ' NATIONS ----------- " + sautDeLigne);
 		
 		System.out.println("Bienvenue sur le jeu Domi'Nations ! " + sautDeLigne);
 		System.out.println("Pour jouer, 2 à 4 joueurs sont requis.");
@@ -74,6 +74,7 @@ public class mainConsole {
 	}
 	
 	public static List<Joueur> setJoueurs(int nbJoueurs){
+		
 		
 		while(true){
 		for(int i = 1; i <= nbJoueurs; i++){
@@ -127,6 +128,7 @@ public class mainConsole {
 	
 	public static void lancerJeu(int nbJoueurs){
 		boolean isOver = false;
+		
 		System.out.println("Le jeu va démarrer!" + sautDeLigne);
 		System.out.println("Voici les données actuelles du jeu : ");
 		//getDataGame(joueurs);
@@ -139,21 +141,12 @@ public class mainConsole {
 				while (Domino.dominosNbJoueurs.size() != 0) {
 					System.out.println("Nombre de dominos restant : " + Domino.dominosNbJoueurs.size() + sautDeLigne + "--------------------------" + sautDeLigne);
 					
-					ArrayList<Domino> dominosToPlay = Domino.pickRandomsDominos(nombreDominos);
+					ArrayList<Domino> dominosToPlay = Domino.pickRandomsDominos(nbJoueurs);
 				
 					displayArrayList(dominosToPlay);
 					System.out.println("--------------------------"  + sautDeLigne + "Les dominos sont posés. Chaque joueur en choisit un qui lui convient par sa position dans la liste");
 					
-					
-					/*
-					 * 
-					 * Faire ici la rotation du jeu en fonction des picks
-					 * changingOrder
-					 * 
-					 * 
-					 */
-					
-					
+			
 					
 					
 					while(dominosToPlay.size() != 0) {
@@ -214,7 +207,7 @@ public class mainConsole {
 				System.out.println("Partie finie! Calculons les points..." + sautDeLigne);
 				List<Joueur> classement = Joueur.classementGame();
 				for(int i = 0; i < classement.size(); i++) {
-					System.out.println(i + ". " + classement.get(i).getNomJoueur());
+					System.out.println(i+1 + ". " + classement.get(i).getNomJoueur());
 				}
 				
 			} catch (IOException e1) {

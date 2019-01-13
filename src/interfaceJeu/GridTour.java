@@ -3,6 +3,8 @@ package interfaceJeu;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +13,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -40,9 +44,18 @@ public class GridTour implements Initializable {
 	public ImageView[][] emptyKingdom;
 	public GridPane kingdom = new GridPane();
 	
+	
+	public TextField xUn;
+	public TextField yUn;
+	public ChoiceBox<String> choiceTuile = new ChoiceBox<>();
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
+		ObservableList<String> availableChoices = FXCollections.observableArrayList("droite", "gauche", "bas", "haut"); 
+		choiceTuile.setItems(availableChoices);
+		
+		
 		emptyKingdom = new ImageView[9][9];
 		
 		

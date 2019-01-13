@@ -189,6 +189,7 @@ public class Grille {
 	 * Fonction permettant de vérifier si au moins une tuile adjacente au domino posé est de même type
 	 */
 	public boolean verificationTuilesAdjacentes (int x, int y, int choix, Domino domino) {
+
 		int x2=0,y2=0;
 		
 		if (choix==1) {
@@ -421,5 +422,6 @@ public class Grille {
 			System.out.println("Erreur dans la lecture du choix ! ");
 		}
 		return false;
+	
 	}
 }

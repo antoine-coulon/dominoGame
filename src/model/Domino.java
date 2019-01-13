@@ -93,6 +93,7 @@ public class Domino implements Comparable<Domino> {
 				
 				//System.out.println(this.tousLesDominos.size());
 				ArrayList<Domino> shuffledDominos = new ArrayList<>();
+				
 				for(int i = 0; i < nbDominosToPick ; i++ ){
 					if(Domino.dominosNbJoueurs.size() > 0) {
 						Domino randomDomino = dominosNbJoueurs.get(new Random().nextInt(Domino.dominosNbJoueurs.size()));

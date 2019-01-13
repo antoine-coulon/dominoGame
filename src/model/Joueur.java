@@ -91,11 +91,9 @@ public class Joueur {
 		
 		System.out.println("Les scores ont été récupérés. Calcul du classement ... ");
 		
-		classement = classement.entrySet()
-                .stream()
-                .sorted(Map.Entry.comparingByValue())
+		classement = classement.entrySet().stream()
+                .sorted(Map.Entry.<Joueur,Integer>comparingByValue().reversed())
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
-		
 		
 		Iterator it = classement.entrySet().iterator();
 		
@@ -103,12 +101,10 @@ public class Joueur {
 	        Map.Entry pair = (Map.Entry)it.next();
 	        
 	        Joueur j = (Joueur) pair.getKey();
-	        System.out.println("Ordre des joueurs : ");
 	        System.out.println(j.getNomJoueur() + " avec un score de : " + pair.getValue());
 	        //changingOrder.add(j);
 	        //joueurs.add(j);
 	        classementFinal.add(j);
-	        System.out.println(pair.getKey() + " = " + pair.getValue());
 	        it.remove(); // avoids a ConcurrentModificationException
 	    }
 	    
@@ -389,4 +385,6 @@ public class Joueur {
 		}
 		return false;
 	}
+	
+	
 }

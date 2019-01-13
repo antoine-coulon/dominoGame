@@ -95,7 +95,8 @@ public class Jeu {
 		System.out.println("Voici les données actuelles du jeu : " + sautDeLigne);
 		//getDataGame(joueurs);
 		
-			int nombreDominos = adaptGame(nbJoueurs);
+			int nombreDominos = adaptGame(Jeu.joueurs.size());
+			System.err.println("NOMBRE DOMI LNACER JEU : " + nombreDominos);
 			if(nombreDominos != 0 && Domino.dominosNbJoueurs.size() != 48 && Domino.dominosNbJoueurs.size() != 36 && Domino.dominosNbJoueurs.size() != 24  ){
 			try {
 				Domino.initListsOfDominos(nombreDominos);
@@ -116,14 +117,14 @@ public class Jeu {
 				System.out.println("Changing size :" + changingOrder.size());
 				
 				if(joueurs.size() > 0) {
-					System.out.println("TOJOURS PREMIER TOUR");
+					// Tour suivant
 					System.out.println("First round pick " + joueurs.size());
 					Joueur j = joueurs.get(0);
 					//joueurs.remove(j);
 					return j;
 				}
 				else {
-					System.out.println("TOUR SUIVAAAAAANT");
+					// Tour suivant
 					changeOrder();
 					System.out.println("Change order TOUR SUIVANT : " + changingOrder.size());
 					if(changingOrder.size() > 0) {
@@ -142,7 +143,32 @@ public class Jeu {
 	}
 	
 	public static void handleOrder(Joueur j, Domino d) {
-		orderSet.put(j, d.getNumero());
+		
+		/* Dans le cas où le nombre de joueurs = 2 , il faut gérer l'ajout de 4 dominos dans la hashmap
+		 * 
+		 * Or les clés de même valeur (ici les joueurs) seront écrasées et remplacées par les nouvelles
+		 * Quand un joueur jouera son deuxième domino, il ecrasera l'ancien et pour gérer les tours il nous faut toutes les informations du tour
+		 * 
+		 * Donc on garde le domino avec le numero le plus petit pour chaque joueur
+		 * Ainsi, celui qui a le plus petit nombre parmi les dominos jouera en premier
+		 * 
+		 */
+		if(joueurs.size() == 2) {
+			if(orderSet.containsKey(j)) {
+				//Le joueur est déjà dans la HashMap -> il a déjà joué lors de ce tour
+				int numero = orderSet.get(j);
+				if(d.getNumero() < numero) {
+					// si Le nouveau numéro du domino choisi est plus petit que l'ancien: on écrase l'ancien value 
+					orderSet.put(j, d.getNumero());
+				}
+			} else {
+				orderSet.put(j, d.getNumero());
+			}
+		} else {
+			System.out.println("Pas dans le cas avec deux joueurs");
+			orderSet.put(j, d.getNumero());
+		}
+		
 		//System.out.println("Données joueurs et domino ajouté à l'orderSet");
 	}
 	
@@ -159,18 +185,25 @@ public class Jeu {
 		
 		Iterator it = orderSet.entrySet().iterator();
 		
-		joueurs.clear();
-	    while (it.hasNext()) {
-	        Map.Entry pair = (Map.Entry)it.next();
-	        
-	        Joueur j = (Joueur) pair.getKey();
-	        System.out.println("On parcourt les joueurs qui ont joué : ");
-	      // System.out.println(j.getNomJoueur() + " " + j.getCouleurJoueur());
-	        //changingOrder.add(j);
-	        //joueurs.add(j);
-	       // System.out.println(pair.getKey() + " = " + pair.getValue());
-	        it.remove(); // avoids a ConcurrentModificationException
-	    }
+		
+		/* Cas où il y a deux joueurs */
+		
+		
+			joueurs.clear();
+		    while (it.hasNext()) {
+		        Map.Entry pair = (Map.Entry)it.next();
+		        
+		        Joueur j = (Joueur) pair.getKey();
+		        System.out.println("On parcourt les joueurs qui ont joué : ");
+		      // System.out.println(j.getNomJoueur() + " " + j.getCouleurJoueur());
+		        changingOrder.add(j);
+		        joueurs.add(j);
+		       // System.out.println(pair.getKey() + " = " + pair.getValue());
+		        it.remove(); // avoids a ConcurrentModificationException
+		    }
+		
+		
+		
 	}
 	
 	public static List<Domino> getDominos() {
