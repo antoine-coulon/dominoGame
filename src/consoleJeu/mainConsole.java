@@ -177,6 +177,10 @@ public class mainConsole {
 											//Jeu.joueurs.get(i).canPlayerPutDomino(d);
 											Jeu.joueurs.get(i).placerDomino(d);
 											
+											System.out.println(sautDeLigne + "Voici votre royaume actualisé");
+											Jeu.joueurs.get(i).getGrilleJoueur();
+											
+											System.out.println("-------------------------------");
 											System.out.println(sautDeLigne + "Liste des dominos actualisée : ");
 											System.out.println(sautDeLigne);
 											System.out.println("-------------------------------");
@@ -207,7 +211,11 @@ public class mainConsole {
 					//displayArrayList(dominosToPlay);
 				}
 				
-				System.out.println("Partie finie les boyz!");
+				System.out.println("Partie finie! Calculons les points..." + sautDeLigne);
+				List<Joueur> classement = Joueur.classementGame();
+				for(int i = 0; i < classement.size(); i++) {
+					System.out.println(i + ". " + classement.get(i).getNomJoueur());
+				}
 				
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block

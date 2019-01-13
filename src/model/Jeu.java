@@ -143,9 +143,14 @@ public class Jeu {
 	
 	public static void handleOrder(Joueur j, Domino d) {
 		orderSet.put(j, d.getNumero());
+		System.out.println("Données joueurs et domino ajouté à l'orderSet");
 	}
 	
 	public static void changeOrder() {
+		
+		System.out.println("Trying to change order after the tour..");
+		
+		System.out.println("Taille de l'order set : " + orderSet.size());
 		orderSet = orderSet.entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByValue())
@@ -153,16 +158,17 @@ public class Jeu {
 		
 		
 		Iterator it = orderSet.entrySet().iterator();
+		
+		joueurs.clear();
 	    while (it.hasNext()) {
 	        Map.Entry pair = (Map.Entry)it.next();
 	        
 	        Joueur j = (Joueur) pair.getKey();
 	        System.out.println("On parcourt les joueurs qui ont joué : ");
 	        System.out.println(j.getNomJoueur() + " " + j.getCouleurJoueur());
-	        changingOrder.add(j);
-	        joueurs.clear();
-	        joueurs.add(j);
-	        //System.out.println(pair.getKey() + " = " + pair.getValue());
+	        //changingOrder.add(j);
+	        //joueurs.add(j);
+	        System.out.println(pair.getKey() + " = " + pair.getValue());
 	        it.remove(); // avoids a ConcurrentModificationException
 	    }
 	}
@@ -177,34 +183,6 @@ public class Jeu {
 			displayArrayList(dominosToPlay);
 			System.out.println("Les dominos sont posés. Chaque joueur en choisit un qui lui convient");
 			return dominosToPlay;
-			/*while(dominosToPlay.size() != 0) {
-				for(int i = 0; i < joueurs.size(); i++) {
-					//System.out.println(sautDeLigne);
-					//System.out.println(joueurs.get(i).getNomJoueur() + " choisissez votre domino : ");
-					System.out.println(sautDeLigne);
-					
-						try {
-							//int dominoToPick = sc.nextInt();
-							Domino d = dominosToPlay.get(dominoToPick);
-							//sc.nextLine();
-							joueurs.get(i).piocheDomino(d);
-							dominosToPlay.remove(d);
-							
-							joueurs.get(i).canPlayerPutDomino(d, joueurs.get(i));
-							System.out.println("Liste des dominos actualisée : ");
-							System.out.println(sautDeLigne);
-							System.out.println("-------------------------------");
-							System.out.println(sautDeLigne);
-						
-							displayArrayList(dominosToPlay);
-						}
-						catch(InputMismatchException e) {
-							e.printStackTrace();
-						}
-				
-				}*/
-			
-		
 	}
 	
 	
@@ -228,178 +206,6 @@ public class Jeu {
 		
 	}
 	
-
-		/*
-	}
-	
-	public static void initJeu(){
-		
-		
-		
-			System.out.println("Bienvenue sur le jeu Domi'Nations ! " + sautDeLigne);
-			System.out.println("Pour jouer, 2 à 4 joueurs sont requis." + sautDeLigne);
-			System.out.println("Combien de joueurs veulent jouer ?" + sautDeLigne);
-		
-		
-		while(true){
-			try{
-					int nbJoueurs = sc.nextInt();
-					switch(nbJoueurs){
-						case 2 : 
-							
-							System.out.println("Lancement du jeu à 2 joueurs" +sautDeLigne);
-							sc.nextLine();
-							setJoueurs(nbJoueurs);
-							break;
-						case 3 :
-							System.out.println("Lancement du jeu à 3 joueurs" +sautDeLigne);
-							sc.nextLine();
-							setJoueurs(nbJoueurs);
-							break;
-						case 4 :
-							System.out.println("Lancement du jeu à 4 joueurs" + sautDeLigne);	
-							sc.nextLine();
-							setJoueurs(nbJoueurs);
-							break;
-						default:
-							System.err.println("Nombre de joueurs invalide. Recommencez.");
-							
-							break;
-					}	
-				
-			
-			} catch (Exception e){
-				e.printStackTrace();
-				
-				
-			} 
-			break;
-		}
-		
-			
-		
-	}
-	
-	public static List<Joueur> setJoueurs(int nbJoueurs){
-		
-		while(true){
-		for(int i = 1; i <= nbJoueurs; i++){
-			
-			System.out.println("Saisissez le nom du joueur " + i + sautDeLigne);
-			
-			try{
-				
-				String nomJoueur = sc.nextLine();
-				Grille grille = new Grille(nomJoueur);
-				Joueur joueur = new Joueur(i, nomJoueur, null, grille);
-				System.out.println("Joueur " + nomJoueur + " est prêt à jouer!" + sautDeLigne);
-				joueurs.add(joueur);
-				grilles.add(grille);
-				
-			}
-			catch(Exception e){
-				System.out.println("Veuillez saisir un nom valide");
-				
-				}
-		
-			
-		}
-		System.out.println("Avant de commencer, il faut que chaque joueur choisisse une couleur de territoire." + sautDeLigne);
-	
-		System.out.println("Voici l'ordre de sélection des couleurs, tiré au hasard et sans triche" + sautDeLigne);
-		Collections.shuffle(joueurs);
-		displayArrayListGeneric(joueurs);
-		System.out.println(sautDeLigne);
-		while(true){
-				System.out.println("Sélectionnez votre couleur parmi les couleurs disponibles : ");
-				try{
-					couleur(joueurs);
-					break;
-				}
-				catch (IOException e){
-					System.err.println("Erreur couleur joueur");
-					e.printStackTrace();
-				}
-		}
-		
-		//for(int j = 0; j < joueurs.size(); j++){
-		//	System.out.println(joueurs.get(j).nomJoueur + " " + joueurs.get(j).numeroJoueur);
-		//}
-		System.out.println("Avant lancement de joueur : " + nbJoueurs);
-		lancerJeu(nbJoueurs);
-		break;
-		}
-		return joueurs;
-	}
-	
-	
-	
-	
-	public static void getDataGame(List<Joueur> joueurs) {
-		for(int i =0 ; i < joueurs.size(); i++){
-			System.out.println("Joueur n°"+joueurs.get(i).getNumeroJoueur() + " - pseudo : " + joueurs.get(i).getNomJoueur() + " - couleur : " + joueurs.get(i).getCouleurJoueur());
-		}
-	}
-	public static void displayArrayListGeneric(List<Joueur> joueurs){
-		for(int i =0 ; i < joueurs.size(); i++){
-			System.out.println(joueurs.get(i).getNomJoueur());
-		}
-	}
-	
-	public static void displayArrayList(ArrayList<Domino> dom){
-		
-		for(int i =0 ; i < dom.size(); i++){
-		
-			System.out.println(dom.get(i).getNumero() + " | " + dom.get(i).tuile1.typeTuile + " - " + dom.get(i).tuile2.typeTuile);
-			System.out.println(sautDeLigne);
-		}
-	}
-	
-	
-	public static ArrayList<String> couleur(List<Joueur> joueurs) throws IOException{
-		ArrayList<String> co = new ArrayList<>();
-		co.add("bleu");
-		co.add("jaune");
-		co.add("rouge");
-		co.add("vert");
-		
-		System.out.println("Nombre de joueurs : " + joueurs.size());
-		System.out.println("Couleurs disponibles" + sautDeLigne);
-		for(int i =0 ; i < joueurs.size(); i++){
-			
-			for(int j = 0; j < co.size(); j++){
-				System.out.println("couleur : " + co.get(j));
-			}
-	        System.out.println(joueurs.get(i).getNomJoueur() + " : choisissez votre couleur par son nom.");  
-	    
-	        
-			try {
-				String playerInput = sc.nextLine();
-				if(co.contains(playerInput)){
-					joueurs.get(i).setCouleur(playerInput);
-					co.remove(playerInput);
-				}
-				else{
-					System.err.println("Couleur n'existe pas dans la liste");
-				}
-				
-				System.out.println(joueurs.get(i).getNomJoueur() + " a selectionné sa couleur." + sautDeLigne);  
-			} catch (Exception e) {
-				System.err.println("Vérifiez la saisie de la couleur");
-				e.printStackTrace();
-			} 
-	      
-		}
-	
-		return co;
-	}
-	
-	public void displayArrayListCouleur(ArrayList<String> ar){
-		
-	}
-	
-	*/
-	
 	public static void fillColor() {
 		co.add("bleu");
 		System.out.println("vleu");
@@ -410,10 +216,6 @@ public class Jeu {
 		co.add("vert");
 		System.out.println("vert");
 	}
-	public static void main(String[] args) throws Exception {
-       // initJeu();
-		
-    }
 
 
 	public static void setupOrder(Joueur currentJoueur, Domino dom2) {

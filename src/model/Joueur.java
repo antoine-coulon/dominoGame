@@ -1,9 +1,13 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Joueur {
 
@@ -50,6 +54,17 @@ public class Joueur {
 		Grille.displayGrille(this.grille);
 	}
 	
+	public void checkCurrentListOfDominos() {
+		for(int i = 0; i < this.listOfDominosPerPlayer.size(); i++) {
+			this.listOfDominosPerPlayer.get(i).getNumero();
+		}
+	}
+	
+	/* Fonction qui permet à un joueur de piocher un domino puis d'adapter l'ordre de jeu.
+	 * En effet, on place le joueur et le domino dans une HashMap puis une fois le tour fini on trie cette HashMap
+	 * afin de retourner un ordre de joueur en rapport avec les dominos piochés.
+	 */
+	
 	public void piocheDomino(Domino d) {
 		this.listOfDominosPerPlayer.add(d);
 		Jeu.handleOrder(this, d);
@@ -57,34 +72,47 @@ public class Joueur {
 		System.out.println(sautDeLigne + "Domino N°" + d.getNumero() + " a été sélectionné!");
 	}
 	
-	public void checkCurrentListOfDominos() {
-		for(int i = 0; i < this.listOfDominosPerPlayer.size(); i++) {
-			this.listOfDominosPerPlayer.get(i).getNumero();
-		}
-	}
-	
-	public boolean canPlayerPutDomino(Domino d) {
-		System.out.println("Vous devez désormais placer le domino sélectionné.");
-		System.out.println("Rappel de votre grille courante : ");
-		//grille.displayGrille(this.getGrilleJoueur());
-		//this.getGrilleJoueur()
-		this.getGrilleJoueur();
-		if(this.checkPositionInGrid(d) == true) {
-			System.out.println("OUI IL PEUT PLACER");
-			Grille.displayGrille(this.getGrille());
-			return true;
-		}
-		else {
-			System.out.println("NON IL NE PEUT PAS PLACER");
-			Grille.displayGrille(this.getGrille());
-			return false;
-		}
-		
-	}
+	/* Fonction d'ajout d'une tuile */
 	
 	public void addTuile(int x, int y, Tuile t) {
 		System.out.println(sautDeLigne + "Ajout de la tuile de coordonnées (x,y) = " + "(" + x + "," +y+")" + sautDeLigne);
 		this.grille.putTuile(x, y, t);
+	}
+	
+	
+	public static List<Joueur> classementGame() {
+		Map<Joueur, Integer> classement = new HashMap<>();
+		List<Joueur> classementFinal = new ArrayList<>();
+		for(int i = 0; i < Jeu.joueurs.size(); i++) {
+			int score = Jeu.joueurs.get(i).parcoursGrille(Jeu.joueurs.get(i).getGrille());
+			System.out.println("Score du joueur " + Jeu.joueurs.get(i).getNomJoueur() + " est : " + score);
+			classement.put(Jeu.joueurs.get(i), score);
+		}
+		
+		System.out.println("Les scores ont été récupérés. Calcul du classement ... ");
+		
+		classement = classement.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+		
+		
+		Iterator it = classement.entrySet().iterator();
+		
+	    while (it.hasNext()) {
+	        Map.Entry pair = (Map.Entry)it.next();
+	        
+	        Joueur j = (Joueur) pair.getKey();
+	        System.out.println("Ordre des joueurs : ");
+	        System.out.println(j.getNomJoueur() + " avec un score de : " + pair.getValue());
+	        //changingOrder.add(j);
+	        //joueurs.add(j);
+	        classementFinal.add(j);
+	        System.out.println(pair.getKey() + " = " + pair.getValue());
+	        it.remove(); // avoids a ConcurrentModificationException
+	    }
+	    
+	    return classementFinal;
 	}
 	
 	public int parcoursGrille(Grille grille) {
@@ -105,6 +133,9 @@ public class Joueur {
 		Grille.displayGrille(grilleTemporaire);
 		return scoreTotal;
 	}
+	
+	
+	/* Fonction qui permet de compter les points du territoire d'un joueur */
 	
 	public int comptagePointsTerritoire(int x, int y, String type, Grille grilleTemporaire) {
 
@@ -164,69 +195,16 @@ public class Joueur {
 			return scoreTerritoire;
 	}
 	
-	public boolean checkPositionInGrid(Domino d) {
-		boolean isValid = false;
-		System.out.println("Placez maintenant votre domino : ");
-	
-		
-				//for(int i = 1; i < Domino.NB_TUILES_IN_DOMINO+1; i++) {
-					while(!isValid) {
-						try {
-							
-							if(placerDomino(d) == true) {
-								
-							}
-							isValid = true;
-							break;
-							/*
-							System.out.println("Placement de la tuile " + i + " ... " + d.tuile1.getTypeTuile());
-							System.out.println(" Quelle colonne ? ");
-							int x = sc.nextInt();
-							sc.nextLine();
-							System.out.println(" Quelle ligne ? ");
-							int y = sc.nextInt();
-							sc.nextLine();
-							
-							
-							if(Grille.verifTuile(x, y, this) == true) {
-								System.out.println("Tuile " + i + " bien placée !");
-								addTuile(x, y, d.getTuileWithIndex(i));
-								isValid = true;
-								break;
-							}
-							else {
-								isValid = false;
-								System.out.println("Recommencez...");
-							}*/
-						}
-						catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				//}
-				return true;
-				//hasPlayed = true;
-				/*System.out.println("Placement de la première tuile ... " + d.tuile1.getTypeTuile());
-				System.out.println(" Quelle colonne ? ");
-				int x = sc.nextInt();
-				sc.nextLine();
-				System.out.println(" Quelle ligne ? ");
-				int y = sc.nextInt();
-				sc.nextLine();
-				System.out.println("Placement de la deuxième tuile ... (Celle-ci doit être collée à la première (haut, droite, gauche, bas) " + d.tuile2.getTypeTuile());
-				System.out.println(" Quelle colonne ? ");
-				int x1 = sc.nextInt();
-				sc.nextLine();
-				System.out.println(" Quelle ligne ? ");
-				int y1 = sc.nextInt();
-				sc.nextLine();
-			*/
-				
-
-	}
 	
 	
 	
+	
+	/* Fonction qui permet à l'utilisateur de placer un domino correctement. 
+	 * Tant que le choix n'est pas valide, il ne peut pas le poser.
+	 * Une option de passer son tour a été ajoutée, pour permettre à un joueur de piocher un domino qu'il ne voudrait pas utiliser pour son royaume,
+	 * mais uniquement le retirer et empêcher à autre joueur de l'obtenir.
+	 * 
+	 * */
 	
 	public boolean placerDomino(Domino d) {
 		try {
@@ -239,7 +217,7 @@ public class Joueur {
 			
 			while(!isOk) {
 				
-				System.out.println("Si vous ne pouvez pas jouer ou que vous vouliez simplement faire de l'anti-jeu, tappez 1 " + sautDeLigne);
+				System.out.println("Si vous ne pouvez pas jouer ou que vous vouliez simplement faire de l'anti-jeu, tapez 1 " + sautDeLigne);
 				System.out.println("Sinon, tapez 2");
 				
 				try{
@@ -287,40 +265,60 @@ public class Joueur {
 					} while (choix != 1 && choix !=2 && choix !=3 && choix !=4);
 					
 				
-					// vérification pour tuile1 et tuile2
+				
+					/* Fonctions permettant de vérifier que le placement du domino :
+					 * 1. Se fait bien à un emplacement disponible
+					 * 2. Se place bien dans le royaume de taille 5x5
+					 * 3. Se place bien au moins à côté d'une tuile adjacente de même type
+					 * 
+					 * Fonctions imbriquées pour permettre de retourner l'erreur associée à l'une des trois vérifications
+					 */
 					
 						
-					if(this.getGrille().verificationTuileVide(x,y,choix) == true && this.getGrille().verificationTaille(x, y, choix) == true && this.getGrille().verificationTuilesAdjacentes(x, y, choix, d)) {
-						addTuile(x, y, d.tuile1);
-						if(choix == 1) {
-							addTuile(x+1, y, d.tuile2);
-							isOk = true;
-							return true;
+					if(this.getGrille().verificationTuileVide(x,y,choix)) {
+						
+						if(this.getGrille().verificationTaille(x, y, choix)) {
+						
+							if(this.getGrille().verificationTuilesAdjacentes(x, y, choix, d)) {
+								addTuile(x, y, d.tuile1);
+								if(choix == 1) {
+									addTuile(x+1, y, d.tuile2);
+									isOk = true;
+									return true;
+									
+								}
+								// haut de la premiere tuile
+								else if (choix == 2) {
+									addTuile(x, y-1, d.tuile2);
+									isOk = true;
+									return true;
+								}
+								// gauche de la premiere tuile
+								else if (choix == 3) {
+									addTuile(x-1, y, d.tuile2);
+									isOk = true;
+									return true;
+								}
+								// bas de la premiere tuile
+								else if (choix == 4) {
+									addTuile(x, y+1, d.tuile2);
+									isOk = true;
+									return true;
+								}
+								isOk = true;
+								return true;
+							} else {
+								System.err.println(sautDeLigne + "Placement refusé. Le domino doit avoir au moins une tuile adjacente de même type.");
+								isOk = false;
+							}
 							
+						} else {
+							System.err.println(sautDeLigne + "Placement refusé. Le domino doit être placé dans un royaume de taille 5x5. Veuillez recommencer");
+							isOk = false;
 						}
-						// haut de la premiere tuile
-						else if (choix == 2) {
-							addTuile(x, y-1, d.tuile2);
-							isOk = true;
-							return true;
-						}
-						// gauche de la premiere tuile
-						else if (choix == 3) {
-							addTuile(x-1, y, d.tuile2);
-							isOk = true;
-							return true;
-						}
-						// bas de la premiere tuile
-						else if (choix == 4) {
-							addTuile(x, y+1, d.tuile2);
-							isOk = true;
-							return true;
-						}
-						isOk = true;
-						return true;
 					
 					} else {
-						System.err.println(sautDeLigne + "Placement du domino non autorisé. Veuillez recommencer");
+						System.err.println(sautDeLigne + "Emplacement occupé par d'autres dominos. Veuillez recommencer");
 						isOk = false;
 					}
 				}
@@ -335,7 +333,12 @@ public class Joueur {
 	}
 
 	
-	/* Fonction correspondant à "placerDomino" ci-dessus mais adaptée pour la classe JoueurTest */ 
+	/* Fonction correspondant à "placerDomino" ci-dessus mais adaptée pour la classe JoueurTest 
+	 * 
+	 * FONCTION DE TEST
+	 * 
+	 * 
+	 * */ 
 	
 	public boolean placerDominoXY(Domino d, int x, int y, int choix) {
 		x=x-1;
