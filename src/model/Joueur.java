@@ -29,15 +29,15 @@ public class Joueur {
 		this.grille = grille;
 	}
 	
-	public String getNomJoueur(){
+	public String getNomJoueur(){	// getter nom du joueur
 		return this.nomJoueur;
 	}
 	
-	public int getNumeroJoueur(){
+	public int getNumeroJoueur(){	// getter numéro du joueur
 		return this.numeroJoueur;
 	}
 	
-	public String getCouleurJoueur(){
+	public String getCouleurJoueur(){ // getter couleur du joueur
 		return this.couleur;
 	}
 	
@@ -79,7 +79,7 @@ public class Joueur {
 		this.grille.putTuile(x, y, t);
 	}
 	
-	
+	// Fonction permettant d'afficher le classement en fin de partie
 	public static List<Joueur> classementGame() {
 		Map<Joueur, Integer> classement = new HashMap<>();
 		List<Joueur> classementFinal = new ArrayList<>();
@@ -115,6 +115,7 @@ public class Joueur {
 	    return classementFinal;
 	}
 	
+	// Fonction permettant de parcourir une grille de jeu en récupérant son score à l'aide d'une grille temporaire
 	public int parcoursGrille(Grille grille) {
 		Grille grilleTemporaire = grille;
 		Grille.displayGrille(grilleTemporaire);
@@ -217,13 +218,13 @@ public class Joueur {
 			
 			while(!isOk) {
 				
-				System.out.println("Si vous ne pouvez pas jouer ou que vous vouliez simplement faire de l'anti-jeu, tapez 1 " + sautDeLigne);
-				System.out.println("Sinon, tapez 2");
+				System.out.println("Si vous ne pouvez pas jouer ou que vous vouliez simplement faire de l'anti-jeu, tapez 0 " + sautDeLigne);
+				System.out.println("Sinon, tapez un autre nombre");
 				
 				try{
 					int playingChoice = sc.nextInt();
 					sc.nextLine();
-					if(playingChoice == 1) {
+					if(playingChoice == 0) {
 						isOk = false;
 						return true;
 					}
@@ -318,7 +319,7 @@ public class Joueur {
 						}
 					
 					} else {
-						System.err.println(sautDeLigne + "Emplacement occupé par d'autres dominos. Veuillez recommencer");
+						System.err.println(sautDeLigne + "Placement invalide. Veuillez recommencer");
 						isOk = false;
 					}
 				}

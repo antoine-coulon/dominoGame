@@ -143,7 +143,7 @@ public class Jeu {
 	
 	public static void handleOrder(Joueur j, Domino d) {
 		orderSet.put(j, d.getNumero());
-		System.out.println("Données joueurs et domino ajouté à l'orderSet");
+		//System.out.println("Données joueurs et domino ajouté à l'orderSet");
 	}
 	
 	public static void changeOrder() {
@@ -165,10 +165,10 @@ public class Jeu {
 	        
 	        Joueur j = (Joueur) pair.getKey();
 	        System.out.println("On parcourt les joueurs qui ont joué : ");
-	        System.out.println(j.getNomJoueur() + " " + j.getCouleurJoueur());
+	      // System.out.println(j.getNomJoueur() + " " + j.getCouleurJoueur());
 	        //changingOrder.add(j);
 	        //joueurs.add(j);
-	        System.out.println(pair.getKey() + " = " + pair.getValue());
+	       // System.out.println(pair.getKey() + " = " + pair.getValue());
 	        it.remove(); // avoids a ConcurrentModificationException
 	    }
 	}

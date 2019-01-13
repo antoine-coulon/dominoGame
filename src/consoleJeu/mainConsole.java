@@ -36,19 +36,19 @@ public class mainConsole {
 					switch(nbJoueurs){
 						case 2 : 
 							
-							System.out.println("Lancement du jeu à 2 joueurs...");
+							System.out.println("Lancement du jeu à 2 joueurs..." + sautDeLigne);
 							sc.nextLine();
 							setJoueurs(nbJoueurs);
 							tryInput = true;
 							break;
 						case 3 :
-							System.out.println("Lancement du jeu à 3 joueurs...");
+							System.out.println("Lancement du jeu à 3 joueurs..."+sautDeLigne);
 							sc.nextLine();
 							setJoueurs(nbJoueurs);
 							tryInput = true;
 							break;
 						case 4 :
-							System.out.println("Lancement du jeu à 4 joueurs..." );	
+							System.out.println("Lancement du jeu à 4 joueurs..." + sautDeLigne);	
 							sc.nextLine();
 							setJoueurs(nbJoueurs);
 							tryInput = true;	
@@ -97,7 +97,7 @@ public class mainConsole {
 		
 			
 		}
-		System.out.println("Avant de commencer, il faut que chaque joueur choisisse une couleur de territoire." + sautDeLigne);
+		System.out.println("Avant de commencer, il faut que chaque joueur choisisse une couleur de territoire.");
 	
 		System.out.println("Voici l'ordre de sélection des couleurs, tiré au hasard et sans triche" + sautDeLigne);
 		Jeu.shufflePlayers();
@@ -119,7 +119,6 @@ public class mainConsole {
 		/*for(int j = 0; j < joueurs.size(); j++){
 			System.out.println(joueurs.get(j).nomJoueur + " " + joueurs.get(j).numeroJoueur);
 		}*/
-		System.out.println("Avant lancement de joueur : " + nbJoueurs);
 		lancerJeu(nbJoueurs);
 		break;
 		}
@@ -129,7 +128,7 @@ public class mainConsole {
 	public static void lancerJeu(int nbJoueurs){
 		boolean isOver = false;
 		System.out.println("Le jeu va démarrer!" + sautDeLigne);
-		System.out.println("Voici les données actuelles du jeu : " + sautDeLigne);
+		System.out.println("Voici les données actuelles du jeu : ");
 		//getDataGame(joueurs);
 		
 			int nombreDominos = adaptGame(nbJoueurs);
@@ -138,12 +137,12 @@ public class mainConsole {
 				Domino.initListsOfDominos(nombreDominos);
 				
 				while (Domino.dominosNbJoueurs.size() != 0) {
-					System.out.println("Nombre de dominos restant : " + Domino.dominosNbJoueurs.size() + sautDeLigne);
+					System.out.println("Nombre de dominos restant : " + Domino.dominosNbJoueurs.size() + sautDeLigne + "--------------------------" + sautDeLigne);
 					
 					ArrayList<Domino> dominosToPlay = Domino.pickRandomsDominos(nombreDominos);
 				
 					displayArrayList(dominosToPlay);
-					System.out.println("Les dominos sont posés. Chaque joueur en choisit un qui lui convient");
+					System.out.println("--------------------------"  + sautDeLigne + "Les dominos sont posés. Chaque joueur en choisit un qui lui convient par sa position dans la liste");
 					
 					
 					/*
@@ -159,7 +158,8 @@ public class mainConsole {
 					
 					while(dominosToPlay.size() != 0) {
 						for(int i = 0; i < Jeu.joueurs.size(); i++) {
-							System.out.println(sautDeLigne);
+							System.out.print(sautDeLigne + "Voici votre royaume actualisé");
+							Jeu.joueurs.get(i).getGrilleJoueur();
 							System.out.println(Jeu.joueurs.get(i).getNomJoueur() + " choisissez votre domino : ");
 							System.out.println(sautDeLigne);
 							
@@ -168,8 +168,8 @@ public class mainConsole {
 									while(!isValid) {
 										try {
 											int dominoToPick = sc.nextInt();
-											if(dominoToPick == 0 || dominoToPick == 1 || dominoToPick == 2 || dominoToPick == 3) {
-											Domino d = dominosToPlay.get(dominoToPick);
+											if(dominoToPick == 1 || dominoToPick == 2 || dominoToPick == 3 || dominoToPick == 4) {
+											Domino d = dominosToPlay.get(dominoToPick-1);
 											
 											Jeu.joueurs.get(i).piocheDomino(d);
 											dominosToPlay.remove(d);
@@ -181,15 +181,15 @@ public class mainConsole {
 											Jeu.joueurs.get(i).getGrilleJoueur();
 											
 											System.out.println("-------------------------------");
-											System.out.println(sautDeLigne + "Liste des dominos actualisée : ");
-											System.out.println(sautDeLigne);
+											System.out.println(sautDeLigne + "Liste des dominos actualisée : " + sautDeLigne);
+
 											System.out.println("-------------------------------");
 											System.out.println(sautDeLigne);
 									
 											displayArrayList(dominosToPlay);
 											isValid = true;
 											} else {
-												System.out.println("Saisissez uniquement un nombre");
+												System.out.println("Saisissez un nombre valide");
 												isValid = false;
 											}
 										}
@@ -241,7 +241,8 @@ public class mainConsole {
 		
 		for(int i =0 ; i < dom.size(); i++){
 		
-			System.out.println(dom.get(i).getNumero() + " | " + dom.get(i).tuile1.typeTuile + " - " + dom.get(i).tuile2.typeTuile);
+			System.out.println(dom.get(i).getNumero() + " | " + dom.get(i).tuile1.typeTuile + " " + dom.get(i).tuile2.getNbCouronnes() + " - " + dom.get(i).tuile2.typeTuile + " " +
+			dom.get(i).tuile2.getNbCouronnes() );
 			System.out.println(sautDeLigne);
 		}
 	}
@@ -292,7 +293,7 @@ public class mainConsole {
 					}
 					else{
 						nvalidColor = false;
-						System.err.println("Couleur n'existe pas dans la liste. Recommencez");
+						System.err.println("Cette couleur n'est pas présente dans la liste. Recommencez");
 					}
 					
 					 
